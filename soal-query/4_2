@@ -1,0 +1,11 @@
+SELECT `master_pasien`.`pasien_kota`, `master_diagnosa`.`diagnosa_kode`, `master_diagnosa`.`diagnosa_name`, COUNT(`diagnosa_pasien`.`kunjungan_id`) AS jumlah
+FROM `diagnosa_pasien`
+RIGHT JOIN `master_diagnosa` 
+ON (`diagnosa_pasien`.`m_diagnosa_id` = `master_diagnosa`.`diagnosa_id`)
+LEFT JOIN `kunjungan_pasien`
+ON (`kunjungan_pasien`.`pendaftaran_id` = `diagnosa_pasien`.`kunjungan_id`)
+LEFT JOIN `master_pasien`
+ON (`master_pasien`.`pasien_id` = `kunjungan_pasien`.`m_pasien_id`) 
+GROUP BY `master_pasien`.`pasien_kota`, `master_diagnosa`.`diagnosa_kode`
+ORDER BY jumlah DESC
+LIMIT 10
